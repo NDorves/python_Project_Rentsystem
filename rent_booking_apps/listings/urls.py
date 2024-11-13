@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from rent_booking_apps.listings.views import ListingViewSet
 
 router = DefaultRouter()
-router.register('', ListingViewSet)
+router.register('listings', ListingViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

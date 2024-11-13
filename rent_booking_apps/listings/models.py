@@ -7,6 +7,7 @@ class PropertyType(models.IntegerChoices):
     APARTMENT = 0, _('Apartment')
     HOUSE = 1, _('House')
     STUDIO = 2, _('Studio')
+    HOTEL_ROOM = 3, _('Room')
 
 
 class Listing(models.Model):

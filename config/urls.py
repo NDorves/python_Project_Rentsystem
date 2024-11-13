@@ -22,5 +22,5 @@ from django.http import HttpResponse
 urlpatterns = [
     path('', lambda req: HttpResponse("Welcome to my first Project site! Привет!")),
     path('admin/', admin.site.urls),
-    path('api/v1/', include('rent_booking_apps.routers')),
+    path('api/', include('rent_booking_apps.routers')),
 ]

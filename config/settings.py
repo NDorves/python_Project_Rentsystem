@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
 from environ import Env
-
+from datetime import timedelta
+import pymysql
+pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = Env()
@@ -45,6 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #3-rd party
     'rest_framework',
+    'django_filters',
+    'rest_framework_simplejwt',
+
+
     #local
     'rent_booking_apps.users.apps.AccountingConfig',
     'rent_booking_apps.listings.apps.ListingConfig',
@@ -96,7 +101,9 @@ if env.bool('MYSQL', default=False):
             'PASSWORD': env('DB_PASSWORD'),
             'HOST': env('DB_HOST'),
             'PORT': env('DB_PORT'),
-            'OPTIONS': {'ssl_mode': 'DISABLED'},
+            'OPTIONS': {
+                'ssl': {
+                    'check_hostname': False, }}
         },
     }
 else:
@@ -149,3 +156,21 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+}
